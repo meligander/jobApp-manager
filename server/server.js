@@ -11,7 +11,8 @@ connectDB();
 //Middleware
 app.use(express.json({ limit: '50mb', extended: false }));
 
-app.use('/api/user', require('./routes/api/user'));
+app.use('/api/website', require('./routes/api/website'));
+app.use('/api/application', require('./routes/api/application'));
 
 const PORT = process.env.PORT || 5000;
 

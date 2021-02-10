@@ -6,11 +6,15 @@ const ApplicationSchema = new mongoose.Schema({
 		ref: 'website',
 		required: true,
 	},
+	company: {
+		type: String,
+		require: true,
+	},
 	letter: {
 		type: String,
 	},
 	date: {
-		type: date,
+		type: Date,
 		default: Date.now,
 	},
 });

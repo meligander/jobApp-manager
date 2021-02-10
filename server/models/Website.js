@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const WebpageSchema = new mongoose.Schema({
+const WebsiteSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
@@ -11,6 +11,6 @@ const WebpageSchema = new mongoose.Schema({
 	},
 });
 
-const Webpage = mongoose.model('webpage', WebpageSchema);
+const Website = mongoose.model('website', WebsiteSchema);
 
-module.exports = Webpage;
+module.exports = Website;
