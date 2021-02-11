@@ -1,0 +1,55 @@
+.table {
+	border-collapse: collapse;
+	text-align: center;
+	width: 80%;
+	margin: 1rem auto;
+	--table-layout: fixed;
+
+	td {
+		padding: 1rem 2rem;
+
+		input {
+			font-size: 1.6rem;
+			width: 100%;
+			color: $dark-color;
+			background-color: inherit;
+			border: none;
+			text-align: center;
+
+			&:focus {
+				outline: none;
+				border-bottom: 1.5px solid $primary-color;
+
+				&:invalid {
+					border-bottom: 1.5px solid $danger-color;
+				}
+			}
+		}
+	}
+
+	&-tdicon {
+		width: 5%;
+	}
+
+	&-icon {
+		font-size: 2rem;
+		cursor: pointer;
+		color: darken($tertiary-color, 20%);
+		backface-visibility: hidden;
+		transition: all 0.4s ease-out;
+
+		&:hover {
+			transform: scale(1.1);
+			color: darken($tertiary-color, 40%);
+		}
+
+		&.trash {
+			color: lighten($danger-color, 35%);
+
+			&:hover {
+				transform: scale(1.1);
+				color: $danger-color;
+			}
+		}
+	}
+}

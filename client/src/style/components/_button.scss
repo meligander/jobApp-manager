@@ -1,0 +1,11 @@
+.btn {
+	&.add {
+		font-size: 2.5rem;
+		transition: all 0.2s ease-out;
+
+		&:hover {
+			transform: scale(1.1) translateY(-0.1rem);
+			color: $success-color;
+		}
+	}
+}

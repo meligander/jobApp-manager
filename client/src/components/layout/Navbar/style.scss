@@ -1,0 +1,100 @@
+@import '../../../style/abstract/variables';
+
+.navbar {
+	display: flex;
+	position: fixed;
+	justify-content: space-between;
+	align-items: center;
+	top: 0;
+	background-color: $primary-color;
+	width: 100%;
+	opacity: 0.8;
+	padding: 0.5rem 1.5rem;
+
+	&-homebtn {
+		display: flex;
+		align-items: center;
+		padding: 0.5rem;
+		border-radius: 1.5rem;
+		backface-visibility: hidden;
+		position: relative;
+		overflow: hidden;
+
+		&-logo {
+			filter: invert(100%);
+			-webkit-filter: invert(100%);
+
+			img {
+				width: 3rem;
+			}
+		}
+
+		&-title {
+			margin-left: 1rem;
+			font-size: 2.2rem;
+			z-index: 2;
+			color: $light-color;
+		}
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%) scale(0);
+			width: 150%;
+			height: 150%;
+			background-color: lighten($primary-color, 15%);
+			transition: all 0.7s ease;
+			border-radius: 50%;
+		}
+
+		&:hover::before {
+			transform: translate(-50%, -50%) scale(1);
+		}
+	}
+
+	&-links {
+		&-btn {
+			display: inline-block;
+			cursor: pointer;
+			text-align: center;
+			position: relative;
+			padding: 1rem 2rem 1.4rem;
+			margin: 0 1rem;
+			border-radius: 0.5rem;
+			outline: none;
+			transition: 1s ease-in-out;
+			width: 14.2rem;
+			height: 4.4rem;
+
+			svg {
+				width: 14.1rem;
+				height: 4.3rem;
+				position: absolute;
+				left: -0.1rem;
+				top: -0.1rem;
+				fill: none;
+				stroke-width: 0.2rem;
+				stroke: $light-color;
+				stroke-dasharray: 150 480;
+				stroke-dashoffset: 150;
+				transition: 1s ease-in-out;
+			}
+
+			span {
+				color: $light-color;
+				font-size: 2rem;
+			}
+
+			&:hover {
+				transition: 1s ease-in-out;
+				background-color: lighten($primary-color, 10%);
+
+				svg {
+					stroke-dashoffset: -480;
+				}
+			}
+		}
+	}
+}

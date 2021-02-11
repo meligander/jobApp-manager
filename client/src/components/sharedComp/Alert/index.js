@@ -1,8 +1,10 @@
 import React from 'react';
 
-const Alert = ({ alert }) => (
+import './style.scss';
+
+const Alert = ({ msg, type }) => (
 	<React.Fragment>
-		<div className={`alert alert-${alert.alertType}`}>{alert.msg}</div>
+		<div className={`alert alert-${type}`}>{msg}</div>
 	</React.Fragment>
 );
 

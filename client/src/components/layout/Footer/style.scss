@@ -1,0 +1,9 @@
+@import '../../../style/abstract/variables';
+
+.footer {
+	background-color: $primary-color;
+	width: 100%;
+	opacity: 0.8;
+	padding: 1rem 1.5rem;
+	color: $light-color;
+}

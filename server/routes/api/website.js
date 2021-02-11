@@ -10,11 +10,11 @@ const Website = require('../../models/Website');
 //@access   Public
 router.get('/', async (req, res) => {
 	try {
-		const websites = await Website.find();
+		const websites = await Website.find().sort({ date: -1 });
 
 		if (websites.length === 0) {
 			return res.status(400).json({
-				msg: 'No se encontraron sitios web con dichas descripciones',
+				msg: 'There is no registered webpage.',
 			});
 		}
 
@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
 
 		if (!webiste)
 			return res.status(400).json({
-				msg: 'No se encontraró un sitio web con dichas descripciones',
+				msg: 'There is no webpage matching that description.',
 			});
 
 		res.json(webiste);
@@ -50,8 +50,8 @@ router.get('/:id', async (req, res) => {
 router.post(
 	'/',
 	[
-		check('name', 'El nombre es necesario.').not().isEmpty(),
-		check('url', 'La dirección web es necesaria.').not().isEmpty(),
+		check('name', 'Name is required.').not().isEmpty(),
+		check('url', 'The URL is required.').not().isEmpty(),
 	],
 	async (req, res) => {
 		const { name, url } = req.body;
@@ -68,7 +68,7 @@ router.post(
 			if (website)
 				return res
 					.status(400)
-					.json({ msg: 'Ya existe un sitio web con ese nombre' });
+					.json({ msg: 'There is an existing website with that name.' });
 
 			const data = { name, url };
 
@@ -90,8 +90,8 @@ router.post(
 router.put(
 	'/:id',
 	[
-		check('name', 'El nombre es necesario.').not().isEmpty(),
-		check('url', 'La dirección web es necesaria.').not().isEmpty(),
+		check('name', 'Name is required.').not().isEmpty(),
+		check('url', 'The URL is required.').not().isEmpty(),
 	],
 	async (req, res) => {
 		const { name, url } = req.body;
@@ -111,7 +111,7 @@ router.put(
 			if (website)
 				return res
 					.status(400)
-					.json({ msg: 'Ya existe un sitio web con ese nombre' });
+					.json({ msg: 'There is an existing website with that name.' });
 
 			const data = { name, url };
 

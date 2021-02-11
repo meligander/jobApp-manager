@@ -11,6 +11,8 @@ import Websites from './components/pages/Websites';
 import Applications from './components/pages/Applications';
 import NotFound from './components/pages/NotFound';
 
+import './style/main.scss';
+
 const App = () => {
 	return (
 		<>
