@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 		if (websites.length === 0) {
 			return res.status(400).json({
-				msg: 'There is no registered webpage.',
+				msg: 'There is no webpage registered',
 			});
 		}
 
@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
 
 		if (!webiste)
 			return res.status(400).json({
-				msg: 'There is no webpage matching that description.',
+				msg: 'There is no webpage matching that description',
 			});
 
 		res.json(webiste);
@@ -50,8 +50,8 @@ router.get('/:id', async (req, res) => {
 router.post(
 	'/',
 	[
-		check('name', 'Name is required.').not().isEmpty(),
-		check('url', 'The URL is required.').not().isEmpty(),
+		check('name', 'Name is required').not().isEmpty(),
+		check('url', 'The URL is required').not().isEmpty(),
 	],
 	async (req, res) => {
 		const { name, url } = req.body;
@@ -68,7 +68,7 @@ router.post(
 			if (website)
 				return res
 					.status(400)
-					.json({ msg: 'There is an existing website with that name.' });
+					.json({ msg: 'There is an existing website with that name' });
 
 			const data = { name, url };
 
@@ -90,8 +90,8 @@ router.post(
 router.put(
 	'/:id',
 	[
-		check('name', 'Name is required.').not().isEmpty(),
-		check('url', 'The URL is required.').not().isEmpty(),
+		check('name', 'Name is required').not().isEmpty(),
+		check('url', 'The URL is required').not().isEmpty(),
 	],
 	async (req, res) => {
 		const { name, url } = req.body;
@@ -111,7 +111,7 @@ router.put(
 			if (website)
 				return res
 					.status(400)
-					.json({ msg: 'There is an existing website with that name.' });
+					.json({ msg: 'There is an existing website with that name' });
 
 			const data = { name, url };
 

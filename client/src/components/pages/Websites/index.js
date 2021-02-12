@@ -45,6 +45,7 @@ const Websites = () => {
 				setAdminValues((prev) => ({
 					...prev,
 					alert: info.info,
+					typeAlert: 'danger',
 				}));
 				setTimer();
 			}
@@ -77,10 +78,7 @@ const Websites = () => {
 			...adminValues,
 			websites: newWebsites,
 			numberEdit: 0,
-			originalValues: {
-				name: '',
-				url: '',
-			},
+			originalValues: newWebsite,
 		});
 	};
 
@@ -92,7 +90,7 @@ const Websites = () => {
 			setAdminValues({
 				...adminValues,
 				numberEdit: null,
-				alert: 'Changes saved.',
+				alert: 'Changes saved',
 				websites: newWebsites,
 				typeAlert: 'success',
 			});
@@ -132,8 +130,8 @@ const Websites = () => {
 	};
 
 	return (
-		<div className='websites'>
-			<h2 className='heading heading-secondary'>
+		<>
+			<h2 className='heading heading-secondary text-secondary'>
 				<span className='text'>Websites</span>
 				<div className='underline'></div>
 			</h2>
@@ -203,8 +201,7 @@ const Websites = () => {
 													let oldWebsites = websites;
 													oldWebsites[index] = {
 														...oldWebsites[index],
-														name: originalValues.name,
-														url: originalValues.url,
+														...originalValues,
 													};
 													setAdminValues({
 														...adminValues,
@@ -254,7 +251,7 @@ const Websites = () => {
 						))}
 				</tbody>
 			</table>
-		</div>
+		</>
 	);
 };
 

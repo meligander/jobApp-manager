@@ -1,0 +1,50 @@
+@import '../../style/abstract/variables';
+.filter {
+	margin: 0 auto;
+	display: inline-block;
+	background-color: lighten($light-color, 3%);
+	padding: 2rem;
+	position: absolute;
+	border-radius: 2rem;
+	left: 6rem;
+	top: -2rem;
+	width: 80%;
+	z-index: 20;
+
+	.form {
+		text-align: center;
+		padding: 2rem;
+		border-radius: 0.5rem;
+		border: 1px solid $primary-color;
+		margin-top: 1rem;
+
+		*:not(:last-child) {
+			margin-bottom: 3rem;
+		}
+
+		input,
+		select {
+			width: 80%;
+		}
+
+		&-item {
+			margin-bottom: 2rem !important;
+
+			&-lbl {
+				width: 80%;
+				margin: 0 auto;
+				display: block;
+				text-align: start;
+				color: $tertiary-color;
+				font-size: 1.4rem;
+				margin-top: -2rem;
+			}
+		}
+	}
+
+	&-parent {
+		position: relative;
+		width: 50%;
+		display: inline-block;
+	}
+}

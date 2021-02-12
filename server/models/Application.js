@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const ApplicationSchema = new mongoose.Schema({
+	number: {
+		type: Number,
+		required: true,
+	},
 	website: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'website',

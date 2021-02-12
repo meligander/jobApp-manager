@@ -1,0 +1,28 @@
+input,
+select,
+textarea {
+	font-size: 1.6rem;
+	width: 100%;
+	color: $dark-color;
+	background-color: inherit;
+	border: none;
+	text-align: center;
+	border-bottom: 1.5px solid transparent;
+
+	&:focus {
+		outline: none;
+		border-bottom: 1.5px solid $primary-color;
+
+		&:invalid {
+			border-bottom: 1.5px solid $danger-color;
+		}
+	}
+}
+
+select {
+	text-align-last: center;
+}
+
+textarea {
+	text-align: start;
+}

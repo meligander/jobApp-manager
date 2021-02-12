@@ -1,11 +1,54 @@
 .btn {
+	transition: all 0.2s ease-out;
+	font-size: 2rem;
+	cursor: pointer;
+	backface-visibility: hidden;
+
+	&:hover {
+		transform: scale(1.1) translateY(-0.1rem);
+	}
+
 	&.add {
 		font-size: 2.5rem;
-		transition: all 0.2s ease-out;
 
 		&:hover {
-			transform: scale(1.1) translateY(-0.1rem);
 			color: $success-color;
+		}
+	}
+
+	&.txt {
+		font-size: 1.6rem;
+		text-decoration: underline $tertiary-color;
+
+		&:hover {
+			color: lighten($dark-color, 10%);
+		}
+	}
+
+	&.close {
+		font-size: 2rem;
+		color: lighten($danger-color, 35%);
+
+		&:hover {
+			color: lighten($danger-color, 10%);
+		}
+	}
+
+	&.search {
+		margin-top: 1rem;
+		opacity: 0.75;
+		font-size: 1.8rem;
+		padding: 1rem 2rem;
+		color: $light-color;
+		border-radius: 3rem;
+		background-color: $primary-color;
+
+		.btn-icon {
+			margin-bottom: -0.2rem;
+		}
+
+		&:hover {
+			background-color: lighten($primary-color, 30%);
 		}
 	}
 }

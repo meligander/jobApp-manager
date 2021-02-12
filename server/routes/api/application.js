@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 		let applications = [];
 
 		if (Object.entries(req.query).length === 0) {
-			applications = await Application.find();
+			applications = await Application.find().sort({ date: -1 });
 		} else {
 			let filter = {
 				...((req.query.startDate || req.query.endDate) && {
@@ -34,12 +34,12 @@ router.get('/', async (req, res) => {
 				}),
 			};
 
-			applications = await Application.find(filter);
+			applications = await Application.find(filter).sort({ date: -1 });
 		}
 
 		if (applications.length === 0) {
 			return res.status(400).json({
-				msg: 'No se encontraron aplicaciones con dichas descripciones',
+				msg: 'There is no application matching that description',
 			});
 		}
 
@@ -59,7 +59,7 @@ router.get('/:id', async (req, res) => {
 
 		if (!application)
 			return res.status(400).json({
-				msg: 'No se encontraró una aplicación con dichas descripciones',
+				msg: 'There is no application matching that description',
 			});
 
 		res.json(application);
@@ -75,11 +75,11 @@ router.get('/:id', async (req, res) => {
 router.post(
 	'/',
 	[
-		check('website', 'El sitio web es necesario.').not().isEmpty(),
-		check('company', 'El nombre de la empresa es necesario.').not().isEmpty(),
+		check('website', 'The website is required').not().isEmpty(),
+		check('company', 'The company name is required').not().isEmpty(),
 	],
 	async (req, res) => {
-		const { website, company, letter, date } = req.body;
+		const { website, company, letter } = req.body;
 
 		let errors = [];
 		const errorsResult = validationResult(req);
@@ -89,7 +89,13 @@ router.post(
 		}
 
 		try {
-			const data = { website, company, letter, date };
+			let last = await Application.find().sort({ $natural: -1 }).limit(1);
+			last = last[0];
+
+			let number = 1;
+			if (last) number = last.number++;
+
+			const data = { website, company, letter, number };
 
 			application = new Application(data);
 
@@ -109,11 +115,11 @@ router.post(
 router.put(
 	'/:id',
 	[
-		check('website', 'El sitio web es necesario.').not().isEmpty(),
-		check('company', 'El nombre de la empresa es necesario.').not().isEmpty(),
+		check('website', 'The website is required').not().isEmpty(),
+		check('company', 'The company name is required').not().isEmpty(),
 	],
 	async (req, res) => {
-		const { website, company, letter, date } = req.body;
+		const { website, company, letter } = req.body;
 
 		let errors = [];
 		const errorsResult = validationResult(req);
@@ -123,7 +129,7 @@ router.put(
 		}
 
 		try {
-			const data = { website, company, letter, date };
+			const data = { website, company, letter };
 
 			const application = await Application.findOneAndUpdate(
 				{ _id: req.params.id },
