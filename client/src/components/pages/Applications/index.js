@@ -15,12 +15,14 @@ import { loadWebsites } from '../../../request/website';
 
 import Alert from '../../sharedComp/Alert';
 import LetterPopup from '../../modals/LetterPopup';
+import Spinner from '../../modals/Spinner';
 
 const Applications = () => {
 	const [adminValues, setAdminValues] = useState({
 		alert: '',
 		typeAlert: '',
 		applications: [],
+		loaded: false,
 		websites: [],
 		numberEdit: null,
 		letterNumber: null,
@@ -31,7 +33,7 @@ const Applications = () => {
 			company: '',
 			website: '',
 		},
-		toggleFilter: false,
+		toggleFilter: null,
 		originalValues: {
 			website: '',
 			company: '',
@@ -43,6 +45,7 @@ const Applications = () => {
 		alert,
 		typeAlert,
 		applications,
+		loaded,
 		websites,
 		numberEdit,
 		letterNumber,
@@ -59,10 +62,12 @@ const Applications = () => {
 				setAdminValues((prev) => ({
 					...prev,
 					applications: info.info,
+					loaded: true,
 				}));
 			else {
 				setAdminValues((prev) => ({
 					...prev,
+					loaded: true,
 					alert: info.info,
 					typeAlert: 'danger',
 				}));
@@ -216,7 +221,6 @@ const Applications = () => {
 				toggleFilter: false,
 			}));
 		} else {
-			console.log(res);
 			setAdminValues({
 				...adminValues,
 				alert: res.info,
@@ -230,6 +234,8 @@ const Applications = () => {
 
 	return (
 		<>
+			{!loaded && <Spinner />}
+
 			<h2 className='heading heading-secondary heading-filter text-secondary'>
 				<span className='text'>Applications</span>
 				<div className='underline'></div>
@@ -238,79 +244,85 @@ const Applications = () => {
 				<button
 					type='button'
 					onClick={() =>
-						setAdminValues((prev) => ({ ...prev, toggleFilter: !toggleFilter }))
+						setAdminValues((prev) => ({
+							...prev,
+							toggleFilter: toggleFilter === null ? true : !toggleFilter,
+						}))
 					}
 					className='btn'
 				>
 					<BiFilter className='heading-filter-icon' />
 				</button>
-				{toggleFilter && (
-					<div className='filter'>
-						<h3 className='text-centre text-tertiary'>Filter</h3>
-						<form
-							className='form'
-							onSubmit={(e) => {
-								e.preventDefault();
-								searchApps();
-							}}
-						>
-							<div className='form-item'>
-								<input
-									className='form-input'
-									type='date'
-									name='startDate'
-									value={filter.startDate}
-									id='startDate'
-									onChange={(e) => onChangeFilter(e)}
-								/>
-								<label className='form-item-lbl' htmlFor='startDate'>
-									From
-								</label>
-							</div>
-							<div className='form-item'>
-								<input
-									className='form-input'
-									type='date'
-									name='endDate'
-									id='endDate'
-									value={filter.endDate}
-									onChange={(e) => onChangeFilter(e)}
-								/>
-								<label className='form-item-lbl' htmlFor='endDate'>
-									To
-								</label>
-							</div>
+
+				<div
+					className={`filter ${
+						toggleFilter === null ? '' : toggleFilter ? 'active' : 'out'
+					}`}
+				>
+					<h3 className='text-centre text-tertiary'>Filter</h3>
+					<form
+						className='form'
+						onSubmit={(e) => {
+							e.preventDefault();
+							searchApps();
+						}}
+					>
+						<div className='form-item'>
 							<input
 								className='form-input'
-								type='text'
-								placeholder='Company Name'
-								name='company'
-								value={filter.company}
+								type='date'
+								name='startDate'
+								value={filter.startDate}
+								id='startDate'
 								onChange={(e) => onChangeFilter(e)}
 							/>
-							<div className='form-group'>
-								<select
-									className='form-input'
-									id='website'
-									name='website'
-									value={filter.website}
-									onChange={(e) => onChangeFilter(e)}
-								>
-									<option value=''>* Select website</option>
-									{websites.length > 0 &&
-										websites.map((website, index) => (
-											<option key={index} value={website._id}>
-												{website.name}
-											</option>
-										))}
-								</select>
-							</div>
-							<button className='btn search' type='submit'>
-								<BiSearchAlt className='btn-icon' /> Search
-							</button>
-						</form>
-					</div>
-				)}
+							<label className='form-item-lbl' htmlFor='startDate'>
+								From
+							</label>
+						</div>
+						<div className='form-item'>
+							<input
+								className='form-input'
+								type='date'
+								name='endDate'
+								id='endDate'
+								value={filter.endDate}
+								onChange={(e) => onChangeFilter(e)}
+							/>
+							<label className='form-item-lbl' htmlFor='endDate'>
+								To
+							</label>
+						</div>
+						<input
+							className='form-input'
+							type='text'
+							placeholder='Company Name'
+							name='company'
+							value={filter.company}
+							onChange={(e) => onChangeFilter(e)}
+						/>
+						<div className='form-group'>
+							<select
+								className='form-input'
+								id='website'
+								name='website'
+								value={filter.website}
+								onChange={(e) => onChangeFilter(e)}
+							>
+								<option value=''>* Select website</option>
+								{websites.length > 0 &&
+									websites.map((website, index) => (
+										<option key={index} value={website._id}>
+											{website.name}
+										</option>
+									))}
+							</select>
+						</div>
+						<button className='btn search' type='submit'>
+							<BiSearchAlt className='btn-icon' /> Search
+						</button>
+					</form>
+				</div>
 			</div>
 			{toggleModal && letterNumber !== null && (
 				<LetterPopup

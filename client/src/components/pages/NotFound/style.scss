@@ -1,0 +1,16 @@
+@import '../../../style/abstract/variables';
+
+.not-found {
+	margin-left: 2rem;
+	margin-top: 10rem;
+
+	&-title {
+		font-size: 5rem;
+	}
+
+	&-icon {
+		margin-bottom: -0.7rem;
+		margin-left: 2rem;
+		color: $danger-color;
+	}
+}

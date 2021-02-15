@@ -2,13 +2,13 @@
 	font-family: 'Satisfy', cursive;
 	position: relative;
 	left: 0;
-	/* left: 50%;
-	transform: translateX(-50%); */
 	width: min-content;
 
 	&-primary {
-		margin: 3rem 0 8rem;
-		font-size: 10rem;
+		margin: 10rem 0;
+		font-size: 12rem;
+		left: 50%;
+		transform: translateX(-50%);
 		color: lighten($secondary-color, 20%);
 		line-height: 6.5rem;
 		font-weight: 700;

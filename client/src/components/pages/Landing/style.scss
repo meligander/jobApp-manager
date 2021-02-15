@@ -1,0 +1,31 @@
+@import '../../../style/abstract/variables';
+
+.landing {
+	background-image: linear-gradient(
+			rgba($dark-color, 0.5),
+			rgba($dark-color, 0.65)
+		),
+		url(../../../img/showcase.jpg);
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	&-subtitle {
+		color: $light-color;
+		font-size: 2.5rem;
+	}
+
+	&-arrowicon {
+		display: block;
+		margin: 3rem auto 1.5rem;
+		width: 100%;
+		color: lighten($secondary-color, 30%);
+		font-size: 6rem;
+		animation: pulsate 1s infinite;
+	}
+}

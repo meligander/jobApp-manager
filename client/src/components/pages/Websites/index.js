@@ -12,12 +12,14 @@ import {
 } from '../../../request/website';
 
 import Alert from '../../sharedComp/Alert';
+import Spinner from '../../modals/Spinner';
 
 const Websites = () => {
 	const [adminValues, setAdminValues] = useState({
 		alert: '',
 		typeAlert: '',
 		websites: [],
+		loaded: false,
 		numberEdit: null,
 		originalValues: {
 			name: '',
@@ -29,6 +31,7 @@ const Websites = () => {
 		alert,
 		typeAlert,
 		websites,
+		loaded,
 		numberEdit,
 		originalValues,
 	} = adminValues;
@@ -40,12 +43,14 @@ const Websites = () => {
 				setAdminValues((prev) => ({
 					...prev,
 					websites: info.info,
+					loaded: true,
 				}));
 			else {
 				setAdminValues((prev) => ({
 					...prev,
 					alert: info.info,
 					typeAlert: 'danger',
+					loaded: true,
 				}));
 				setTimer();
 			}
@@ -107,12 +112,11 @@ const Websites = () => {
 
 	const setTimer = () => {
 		let timer = setTimeout(() => {
-			setAdminValues({
-				...adminValues,
-				numberEdit: null,
+			setAdminValues((prev) => ({
+				...prev,
 				alert: '',
 				typeAlert: '',
-			});
+			}));
 			clear();
 		}, 5000);
 
@@ -131,6 +135,7 @@ const Websites = () => {
 
 	return (
 		<>
+			{!loaded && <Spinner />}
 			<h2 className='heading heading-secondary text-secondary'>
 				<span className='text'>Websites</span>
 				<div className='underline'></div>

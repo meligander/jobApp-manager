@@ -1,7 +1,9 @@
 @import '../../style/abstract/variables';
+@import '../../style/base/animations';
+
 .filter {
 	margin: 0 auto;
-	display: inline-block;
+	display: none;
 	background-color: lighten($light-color, 3%);
 	padding: 2rem;
 	position: absolute;
@@ -10,6 +12,17 @@
 	top: -2rem;
 	width: 80%;
 	z-index: 20;
+
+	&.active {
+		animation: scale-display 0.35s;
+		display: inline-block;
+	}
+
+	&.out {
+		animation: scale-display--reversed 0.5s;
+		animation-fill-mode: forwards;
+		display: inline-block;
+	}
 
 	.form {
 		text-align: center;
