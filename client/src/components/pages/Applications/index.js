@@ -10,6 +10,7 @@ import {
 	loadApplications,
 	saveApplication,
 	deleteApplication,
+	getWeekApps,
 } from '../../../request/application';
 import { loadWebsites } from '../../../request/website';
 
@@ -22,6 +23,8 @@ const Applications = () => {
 		alert: '',
 		typeAlert: '',
 		applications: [],
+		weekApps: 0,
+		total: 0,
 		loaded: false,
 		websites: [],
 		numberEdit: null,
@@ -45,6 +48,8 @@ const Applications = () => {
 		alert,
 		typeAlert,
 		applications,
+		weekApps,
+		total,
 		loaded,
 		websites,
 		numberEdit,
@@ -58,17 +63,21 @@ const Applications = () => {
 	useEffect(() => {
 		const fetchApp = async () => {
 			const info = await loadApplications();
-			if (info.success)
+			const weekinfo = await getWeekApps();
+
+			if (info.success && weekinfo.success)
 				setAdminValues((prev) => ({
 					...prev,
 					applications: info.info,
+					weekApps: weekinfo.info,
+					total: info.info.length,
 					loaded: true,
 				}));
 			else {
 				setAdminValues((prev) => ({
 					...prev,
 					loaded: true,
-					alert: info.info,
+					alert: !info.success ? info.info : weekinfo.info,
 					typeAlert: 'danger',
 				}));
 				setTimer();
@@ -163,6 +172,7 @@ const Applications = () => {
 				alert: 'Changes saved',
 				typeAlert: 'success',
 				applications: newApplications,
+				total: newApplications.length,
 			}));
 			setTimer();
 		} else {
@@ -173,14 +183,53 @@ const Applications = () => {
 			});
 			setTimer();
 		}
+
+		if (!application._id) {
+			const weekApps = await getWeekApps();
+			if (weekApps.success)
+				setAdminValues((prev) => ({
+					...prev,
+					weekApps: weekApps.info,
+				}));
+			else {
+				setAdminValues((prev) => ({
+					...prev,
+					alert: weekApps.info,
+					weekApps: 0,
+					typeAlert: 'danger',
+				}));
+				setTimer();
+			}
+		}
 	};
 
-	const deleteOneApplication = (index, item) => {
+	const deleteOneApplication = async (index, item) => {
 		let newApplications = applications;
 		newApplications.splice(index, 1);
-		setAdminValues({ ...adminValues, applications: newApplications });
+		setAdminValues((prev) => ({
+			...prev,
+			applications: newApplications,
+			total: newApplications.length,
+		}));
 
-		if (item._id) deleteApplication(item._id);
+		if (item._id) {
+			deleteApplication(item._id);
+			const weekApps = await getWeekApps();
+			if (weekApps.success)
+				setAdminValues((prev) => ({
+					...prev,
+					weekApps: weekApps.info,
+				}));
+			else {
+				setAdminValues((prev) => ({
+					...prev,
+					alert: weekApps.info,
+					weekApps: 0,
+					typeAlert: 'danger',
+				}));
+				setTimer();
+			}
+		}
 	};
 
 	const setToggleModal = async (index) => {
@@ -203,12 +252,28 @@ const Applications = () => {
 				newApplications = applications;
 				newApplications[index] = newApp.info;
 			}
-			setAdminValues((prev) => ({
-				...prev,
-				toggleModal: !toggleModal,
-				...(index !== undefined && { letterNumber: index }),
-				...(newApplications.length > 0 && { applications: newApplications }),
-			}));
+
+			const weekApps = await getWeekApps();
+			if (weekApps.success)
+				setAdminValues((prev) => ({
+					...prev,
+					weekApps: weekApps.info,
+					toggleModal: !toggleModal,
+					...(index !== undefined && { letterNumber: index }),
+					...(newApplications.length > 0 && {
+						applications: newApplications,
+						total: newApplications.length,
+					}),
+				}));
+			else {
+				setAdminValues((prev) => ({
+					...prev,
+					alert: weekApps.info,
+					weekApps: 0,
+					typeAlert: 'danger',
+				}));
+				setTimer();
+			}
 		}
 	};
 
@@ -332,6 +397,9 @@ const Applications = () => {
 					edit={numberEdit === letterNumber}
 				/>
 			)}
+			<div className='count'>
+				<p>Total: {total}</p> <p>This Week: {weekApps}</p>
+			</div>
 
 			<div className='text-right'>
 				<button

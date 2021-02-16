@@ -31,6 +31,23 @@ export const loadApplications = async (filterData) => {
 	}
 };
 
+export const getWeekApps = async () => {
+	try {
+		const res = await api.get('/application/lastweek');
+		return {
+			info: res.data,
+			success: true,
+		};
+	} catch (err) {
+		const msg = err.response.data.msg;
+		const type = err.response.statusText;
+		return {
+			info: msg ? msg : type,
+			success: false,
+		};
+	}
+};
+
 export const saveApplication = async (application) => {
 	const newApplication = {};
 	for (const prop in application) {

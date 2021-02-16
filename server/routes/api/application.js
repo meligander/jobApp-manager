@@ -53,6 +53,31 @@ router.get('/', async (req, res) => {
 //@route    GET /api/application/:id
 //@desc     get one application
 //@access   Public
+router.get('/lastweek', async (req, res) => {
+	try {
+		let target = 1; // Monday
+		let date = new Date();
+		date.setHours(00, 00, 00);
+
+		if (date.getDay() !== target) {
+			date.setDate(
+				date.getDate() -
+					(date.getDay() == target ? 7 : (date.getDay() + (7 - target)) % 7)
+			);
+		}
+
+		let applications = await Application.find({ date: { $gte: date } });
+
+		res.json(applications.length);
+	} catch (err) {
+		console.error(err.message);
+		return res.status(500).send('Server Error');
+	}
+});
+
+//@route    GET /api/application/:id
+//@desc     get one application
+//@access   Public
 router.get('/:id', async (req, res) => {
 	try {
 		let application = await Application.findOne({ _id: req.params.id });
