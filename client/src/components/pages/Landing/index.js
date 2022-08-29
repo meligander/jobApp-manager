@@ -35,20 +35,22 @@ const Landing = ({ history }) => {
 
 	return (
 		<div className='landing'>
-			<h1 className='heading heading-primary'>Welcome</h1>
-			<div className='text-centre'>
-				<h3 className='landing-subtitle'>What are you waiting for??</h3>
-				<IoArrowUndoSharp className='landing-arrowicon' />
-				<button
-					type='button'
-					className={`btn landing ${activeButton ? 'animate' : ''}`}
-					onClick={(e) => {
-						e.preventDefault();
-						animateBtn();
-					}}
-				>
-					Apply!
-				</button>
+			<div className='landing-center'>
+				<h1 className='heading heading-primary'>Welcome</h1>
+				<div className='text-centre'>
+					<h3 className='landing-subtitle'>What are you waiting for??</h3>
+					<IoArrowUndoSharp className='landing-arrowicon' />
+					<button
+						type='button'
+						className={`btn landing ${activeButton ? 'animate' : ''}`}
+						onClick={(e) => {
+							e.preventDefault();
+							animateBtn();
+						}}
+					>
+						Apply!
+					</button>
+				</div>
 			</div>
 		</div>
 	);

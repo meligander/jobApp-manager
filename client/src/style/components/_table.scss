@@ -11,6 +11,17 @@
 
 	td {
 		padding: 1rem 2rem;
+		position: relative;
+
+		&.td-checkbox {
+			width: 20%;
+		}
+		.disabled,
+		input:disabled,
+		select:disabled {
+			cursor: default;
+			color: darken($tertiary-color, 20%);
+		}
 	}
 
 	&-tdicon {
@@ -35,6 +46,52 @@
 			&:hover {
 				transform: scale(1.1);
 				color: $danger-color;
+			}
+		}
+	}
+
+	.checkbox-lbl {
+		position: absolute;
+		top: 50%;
+		cursor: pointer;
+		transform: translate(-50%, -50%);
+		margin: 0 2rem 0.5rem 0;
+		padding: 0.5rem 1.5rem 0.7rem 2.3rem;
+		line-height: 2rem;
+		transition: 0.3s all ease;
+		&:before {
+			transition: 0.3s all ease;
+			box-sizing: border-box;
+			content: ' ';
+			position: absolute;
+			top: 0.5rem;
+			left: 0;
+			display: block;
+			width: 1.8rem;
+			height: 1.8rem;
+			border: 2px solid $primary-color;
+			background-color: lighten($light-color, 15%);
+			border-radius: 0.5rem;
+			padding-top: 0.35rem;
+		}
+
+		&.disabled::before {
+			border: 2px solid darken($tertiary-color, 20%);
+			background-color: lightgray;
+		}
+
+		&.checked {
+			color: $bright-color;
+
+			&.disabled {
+				color: darken($bright-color, 10%);
+			}
+
+			&::before {
+				top: 0;
+				width: 100%;
+				height: 2em;
+				z-index: -1;
 			}
 		}
 	}

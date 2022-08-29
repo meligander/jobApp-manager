@@ -17,6 +17,10 @@ const ApplicationSchema = new mongoose.Schema({
 	letter: {
 		type: String,
 	},
+	answered: {
+		type: Boolean,
+		default: false,
+	},
 	date: {
 		type: Date,
 		default: Date.now,

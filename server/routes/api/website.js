@@ -54,8 +54,6 @@ router.post(
 		check('url', 'The URL is required').not().isEmpty(),
 	],
 	async (req, res) => {
-		const { name, url } = req.body;
-
 		let errors = [];
 		const errorsResult = validationResult(req);
 		if (!errorsResult.isEmpty()) {
@@ -70,9 +68,7 @@ router.post(
 					.status(400)
 					.json({ msg: 'There is an existing website with that name' });
 
-			const data = { name, url };
-
-			website = new Website(data);
+			website = new Website(req.body);
 
 			await website.save();
 
@@ -94,7 +90,7 @@ router.put(
 		check('url', 'The URL is required').not().isEmpty(),
 	],
 	async (req, res) => {
-		const { name, url } = req.body;
+		const { name } = req.body;
 
 		let errors = [];
 		const errorsResult = validationResult(req);
@@ -113,11 +109,13 @@ router.put(
 					.status(400)
 					.json({ msg: 'There is an existing website with that name' });
 
-			const data = { name, url };
-
-			website = await Website.findOneAndUpdate({ _id: req.params.id }, data, {
-				new: true,
-			});
+			website = await Website.findOneAndUpdate(
+				{ _id: req.params.id },
+				req.body,
+				{
+					new: true,
+				}
+			);
 
 			res.json(website);
 		} catch (err) {

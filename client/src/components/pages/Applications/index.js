@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Moment from 'react-moment';
+import format from 'date-fns/format';
 import { VscEdit } from 'react-icons/vsc';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { BiMessageSquareAdd, BiFilter, BiSearchAlt } from 'react-icons/bi';
@@ -40,6 +40,7 @@ const Applications = () => {
 		originalValues: {
 			website: '',
 			company: '',
+			answered: false,
 			letter: '',
 		},
 	});
@@ -125,7 +126,9 @@ const Applications = () => {
 
 		newApplications[index] = {
 			...newApplications[index],
-			[e.target.name]: e.target.value,
+			...(e.target
+				? { [e.target.name]: e.target.value }
+				: { answered: !newApplications[index].answered }),
 		};
 		setAdminValues({
 			...adminValues,
@@ -148,6 +151,7 @@ const Applications = () => {
 			date: '',
 			website: '',
 			company: '',
+			answered: false,
 			letter: '',
 		};
 		let newApplications = applications;
@@ -427,11 +431,9 @@ const Applications = () => {
 						applications.map((application, index) => (
 							<tr key={index}>
 								<td>
-									{application.date !== '' ? (
-										<Moment format='DD/MM' date={application.date} />
-									) : (
-										''
-									)}
+									{application.date !== ''
+										? format(new Date(application.date), 'dd/MM/yy')
+										: ''}
 								</td>
 								<td>
 									<select
@@ -459,6 +461,19 @@ const Applications = () => {
 										value={application.company}
 										onChange={(e) => onChange(e, index)}
 									/>
+								</td>
+								<td className='td-checkbox'>
+									<label
+										className={`checkbox-lbl${
+											application.answered ? ' checked' : ''
+										}${numberEdit !== index ? ' disabled' : ''}`}
+										onClick={() => {
+											if (numberEdit === index) onChange({}, index);
+										}}
+										htmlFor='answered'
+									>
+										{application.answered ? 'Good' : 'Failed'}
+									</label>
 								</td>
 								<td>
 									<button
@@ -516,6 +531,7 @@ const Applications = () => {
 														originalValues: {
 															website: application.website,
 															company: application.company,
+															answered: application.answered,
 															letter: application.letter,
 														},
 													});

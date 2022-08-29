@@ -104,8 +104,6 @@ router.post(
 		check('company', 'The company name is required').not().isEmpty(),
 	],
 	async (req, res) => {
-		const { website, company, letter } = req.body;
-
 		let errors = [];
 		const errorsResult = validationResult(req);
 		if (!errorsResult.isEmpty()) {
@@ -120,9 +118,7 @@ router.post(
 			let number = 1;
 			if (last) number = last.number++;
 
-			const data = { website, company, letter, number };
-
-			application = new Application(data);
+			const application = new Application({ ...req.body, number });
 
 			await application.save();
 
@@ -144,8 +140,6 @@ router.put(
 		check('company', 'The company name is required').not().isEmpty(),
 	],
 	async (req, res) => {
-		const { website, company, letter } = req.body;
-
 		let errors = [];
 		const errorsResult = validationResult(req);
 		if (!errorsResult.isEmpty()) {
@@ -154,11 +148,9 @@ router.put(
 		}
 
 		try {
-			const data = { website, company, letter };
-
 			const application = await Application.findOneAndUpdate(
 				{ _id: req.params.id },
-				data,
+				req.body,
 				{
 					new: true,
 				}

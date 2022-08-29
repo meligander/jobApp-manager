@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 //Layout
@@ -14,10 +14,26 @@ import NotFound from './components/pages/NotFound';
 import './style/main.scss';
 
 const App = () => {
+	const height = window.innerHeight;
+
+	const [adminValues, setAdminValues] = useState({
+		navbar: 0,
+		footer: 0,
+	});
+
+	const { navbar, footer } = adminValues;
+
+	const onChange = (value, type) => {
+		setAdminValues((prev) => ({ ...prev, [type]: value }));
+	};
+
 	return (
 		<>
-			<Navbar />
-			<section className='container'>
+			<Navbar onChange={onChange} />
+			<section
+				className='container'
+				style={{ minHeight: height - navbar - footer + 1 }}
+			>
 				<Switch>
 					<Route exact path='/' component={Landing} />
 					<Route exact path='/applications' component={Applications} />
@@ -25,7 +41,7 @@ const App = () => {
 					<Route component={NotFound} />
 				</Switch>
 			</section>
-			<Footer />
+			<Footer onChange={onChange} />
 		</>
 	);
 };
